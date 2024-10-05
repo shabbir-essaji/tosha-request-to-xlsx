@@ -13,11 +13,13 @@ const App = () => {
         const jsonData = getJsonData();
         const worksheet = XLSX.utils.json_to_sheet(jsonData);
         util.autofitColumns(worksheet);
+        /*
         const merge = [
             { s: { r: 1, c: 0 }, e: { r: 2, c: 0 } },
             { s: { r: 3, c: 0 }, e: { r: 4, c: 0 } }
         ];
         worksheet['!merges'] = merge;
+        */
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
         XLSX.writeFile(
