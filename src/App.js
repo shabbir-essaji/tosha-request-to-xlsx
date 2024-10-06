@@ -10,29 +10,36 @@ const App = () => {
     const [textAreaDisabled, setTextAreaDisabled] = useState(false);
     const dateRef = useRef('');
     const getExcel = () => {
-        const jsonData = getJsonData();
-        const worksheet = XLSX.utils.json_to_sheet(jsonData);
-        util.autofitColumns(worksheet);
-        /*
+        try {
+            const jsonData = getJsonData();
+            const worksheet = XLSX.utils.json_to_sheet(jsonData);
+            util.autofitColumns(worksheet);
+            /*
         const merge = [
             { s: { r: 1, c: 0 }, e: { r: 2, c: 0 } },
             { s: { r: 3, c: 0 }, e: { r: 4, c: 0 } }
         ];
         worksheet['!merges'] = merge;
         */
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-        XLSX.writeFile(
-            workbook,
-            `Tosha Requests for ${moment(dateRef.current, 'DD/MM/YYYY').format('DD MMM YYYY')}.xlsx`
-        );
-        setTextVal('');
-        setTextAreaDisabled(false);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+            XLSX.writeFile(
+                workbook,
+                `Tosha Requests for ${moment(dateRef.current, 'DD/MM/YYYY').format('DD MMM YYYY')}.xlsx`
+            );
+        } catch (e) {
+            alert(
+                'Unable to parse input. Kindly recheck the input tosha input'
+            );
+            setTextAreaDisabled(false);
+        } finally {
+            setTextVal('');
+        }
     };
 
     const getJsonData = () => {
-        const arrayOfObjects = [];
         if (textVal) {
+            const arrayOfObjects = [];
             const data = textVal
                 .replaceAll('*', '')
                 .split('\n')
@@ -59,37 +66,35 @@ const App = () => {
                     i = from;
                 }
             }
+            return arrayOfObjects;
         }
-        return arrayOfObjects;
     };
     return (
         <div className="App">
-            <header className="App-header">
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <label htmlFor="toshaRequests">
-                        Paste all tosha requests in 1 go
-                    </label>
-                    <textarea
-                        id="toshaRequests"
-                        name="toshaRequests"
-                        rows={40}
-                        cols={50}
-                        val={textVal}
-                        onInput={event => setTextVal(event.target.value)}
-                        disabled={textAreaDisabled}
-                    ></textarea>
-                </div>
-                <button
-                    name="Export to Excel"
-                    onClick={() => {
-                        setTextAreaDisabled(true);
-                        getExcel();
-                    }}
-                    disabled={!textVal}
-                >
-                    {'Export to Excel'}
-                </button>
-            </header>
+            <h1>Tosha Requests to XLSX</h1>
+            <div>
+                <textarea
+                    id="toshaRequests"
+                    name="toshaRequests"
+                    placeholder={'Paste all tosha requests here from Whatsapp'}
+                    value={textVal}
+                    rows={15}
+                    cols={60}
+                    onInput={event => setTextVal(event.target.value)}
+                    disabled={textAreaDisabled}
+                />
+            </div>
+            <button
+                name="Export to Excel"
+                className={textVal ? 'exportToXlsx' : ''}
+                onClick={() => {
+                    setTextAreaDisabled(true);
+                    getExcel();
+                }}
+                disabled={!textVal}
+            >
+                {'Export to Excel'}
+            </button>
         </div>
     );
 };
