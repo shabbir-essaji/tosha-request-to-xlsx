@@ -27,10 +27,9 @@ const App = () => {
                 workbook,
                 `Tosha Requests for ${moment(dateRef.current, 'DD/MM/YYYY').format('DD MMM YYYY')}.xlsx`
             );
+            setTextAreaDisabled(true);
         } catch (e) {
-            alert(
-                'Unable to parse input. Kindly recheck the input tosha input'
-            );
+            alert('Unable to parse input. Kindly recheck the tosha requests');
             setTextAreaDisabled(false);
         } finally {
             setTextVal('');
@@ -43,7 +42,7 @@ const App = () => {
             const data = textVal
                 .replaceAll('*', '')
                 .split('\n')
-                .filter(a => a && a.includes(':'));
+                .filter(a => a?.includes(':'));
             for (let i = 0; i < data.length; ) {
                 if (data[i].includes('WARDHA JN')) {
                     let from = i + 1;
@@ -62,7 +61,13 @@ const App = () => {
                         }
                         from++;
                     }
-                    arrayOfObjects.push(obj);
+                    const orderedObj = {
+                        'Train details': null,
+                        Time: null
+                    };
+
+                    const finalObj = Object.assign(orderedObj, obj);
+                    arrayOfObjects.push(finalObj);
                     i = from;
                 }
             }
