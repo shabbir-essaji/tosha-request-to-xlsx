@@ -48,17 +48,19 @@ const autofitColumns = worksheet => {
     });
     worksheet['!cols'] = objectMaxLength;
 };
-
+/*
 const getMergedColumnsInfo = worksheet => {
+    
     const [startLetter, endLetter] = worksheet['!ref'].split(':');
     let index = 0;
     const keys = Object.keys(worksheet).sort();
     keys.forEach(key => console.log(worksheet[key].v));
 
     //while()
-};
+  
+};  */
 const util = {
-    autofitColumns,
-    getMergedColumnsInfo
+    autofitColumns
+    //getMergedColumnsInfo
 };
 export default util;
