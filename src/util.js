@@ -51,9 +51,7 @@ const autofitColumns = worksheet => {
 };
 
 const getMergedColumnsInfo = worksheet => {
-    const trainDetailsCol = 'Train details',
-        trainDetailsStartColKey = 'B1',
-        timeCol = 'Time',
+    const trainDetailsStartColKey = 'B1',
         timeColStartKey = 'C1';
     const trainNameCellsToBeMerged = Object.entries(worksheet)
         .filter(
