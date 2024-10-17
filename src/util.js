@@ -1,4 +1,5 @@
-import { range } from 'lodash';
+import { range, values } from 'lodash';
+import * as XLSX from 'xlsx';
 
 const getEndingDigit = inputString => {
     // Define a regular expression to extract the ending digits
@@ -48,19 +49,63 @@ const autofitColumns = worksheet => {
     });
     worksheet['!cols'] = objectMaxLength;
 };
-/*
-const getMergedColumnsInfo = worksheet => {
-    
-    const [startLetter, endLetter] = worksheet['!ref'].split(':');
-    let index = 0;
-    const keys = Object.keys(worksheet).sort();
-    keys.forEach(key => console.log(worksheet[key].v));
 
-    //while()
-  
-};  */
+const getMergedColumnsInfo = worksheet => {
+    const trainDetailsCol = 'Train details',
+        trainDetailsStartColKey = 'B1',
+        timeCol = 'Time',
+        timeColStartKey = 'C1';
+    const trainNameCellsToBeMerged = Object.entries(worksheet)
+        .filter(
+            entry =>
+                entry[0].startsWith('B') && entry[0] !== trainDetailsStartColKey
+        )
+        .sort();
+    const timeCellsToBeMerged = Object.entries(worksheet)
+        .filter(
+            entry => entry[0].startsWith('C') && entry[0] !== timeColStartKey
+        )
+        .sort();
+    const trainCellMap = new Map();
+    trainNameCellsToBeMerged.forEach(([cell, value]) => {
+        if (trainCellMap.has(value.v)) {
+            trainCellMap.get(value.v).push(cell);
+        } else {
+            trainCellMap.set(value.v, [cell]);
+        }
+    });
+    const mergeObjs = [];
+    trainCellMap.forEach((value, key) => {
+        if (value.length > 1) {
+            mergeObjs.push(
+                XLSX.utils.decode_range(
+                    `${value[0]}:${value[value.length - 1]}`
+                )
+            );
+        }
+    });
+    const timeCellMap = new Map();
+
+    timeCellsToBeMerged.forEach(([cell, value]) => {
+        if (timeCellMap.has(value.v)) {
+            timeCellMap.get(value.v).push(cell);
+        } else {
+            timeCellMap.set(value.v, [cell]);
+        }
+    });
+    timeCellMap.forEach((value, key) => {
+        if (value.length > 1) {
+            mergeObjs.push(
+                XLSX.utils.decode_range(
+                    `${value[0]}:${value[value.length - 1]}`
+                )
+            );
+        }
+    });
+    return mergeObjs;
+};
 const util = {
-    autofitColumns
-    //getMergedColumnsInfo
+    autofitColumns,
+    getMergedColumnsInfo
 };
 export default util;
