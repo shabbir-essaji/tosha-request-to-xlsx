@@ -39,7 +39,7 @@ const autofitColumns = worksheet => {
             // empty cell
             if (!cell) return acc;
 
-            const charLength = cell.v.length + 1;
+            const charLength = cell.v.toString().length + 1;
 
             return acc > charLength ? acc : charLength;
         }, 0);
@@ -49,7 +49,16 @@ const autofitColumns = worksheet => {
     worksheet['!cols'] = objectMaxLength;
 };
 
+const getMergedColumnsInfo = worksheet => {
+    const [startLetter, endLetter] = worksheet['!ref'].split(':');
+    let index = 0;
+    const keys = Object.keys(worksheet).sort();
+    keys.forEach(key => console.log(worksheet[key].v));
+
+    //while()
+};
 const util = {
-    autofitColumns
+    autofitColumns,
+    getMergedColumnsInfo
 };
 export default util;

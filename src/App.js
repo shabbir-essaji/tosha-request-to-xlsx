@@ -14,6 +14,10 @@ const App = () => {
             const jsonData = getJsonData();
             const worksheet = XLSX.utils.json_to_sheet(jsonData);
             util.autofitColumns(worksheet);
+            const mergeObj = {
+                s: { r: null, c: null },
+                e: { r: null, c: null }
+            };
             /*
         const merge = [
             { s: { r: 1, c: 0 }, e: { r: 2, c: 0 } },
@@ -43,6 +47,7 @@ const App = () => {
                 .replaceAll('*', '')
                 .split('\n')
                 .filter(a => a?.includes(':'));
+            let serialNo = 1;
             for (let i = 0; i < data.length; ) {
                 if (data[i].includes('WARDHA JN')) {
                     let from = i + 1;
@@ -53,17 +58,23 @@ const App = () => {
                     ) {
                         const [col, val, extra] = data[from].split(':');
                         if (!FILTERED_COLUMNS.includes(col)) {
-                            obj[col] = extra
-                                ? `${val}:${extra}`.trim()
-                                : val.trim();
+                            if (col === 'No of pax') {
+                                obj[col] = Number(val.trim());
+                            } else {
+                                obj[col] = extra
+                                    ? `${val}:${extra}`.trim()
+                                    : val.trim();
+                            }
                         } else if (('Date' === col) & !dateRef.current) {
                             dateRef.current = val.trim();
                         }
                         from++;
                     }
                     const orderedObj = {
+                        'Sr. No.': serialNo++,
                         'Train details': null,
-                        Time: null
+                        Time: null,
+                        'No of pax': null
                     };
 
                     const finalObj = Object.assign(orderedObj, obj);
