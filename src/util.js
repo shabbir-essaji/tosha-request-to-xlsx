@@ -1,4 +1,4 @@
-import { range, values } from 'lodash';
+import { range } from 'lodash';
 import * as XLSX from 'xlsx';
 
 const getEndingDigit = inputString => {
@@ -73,7 +73,7 @@ const getMergedColumnsInfo = worksheet => {
         }
     });
     const mergeObjs = [];
-    trainCellMap.forEach((value, key) => {
+    trainCellMap.forEach(value => {
         if (value.length > 1) {
             mergeObjs.push(
                 XLSX.utils.decode_range(
@@ -91,7 +91,7 @@ const getMergedColumnsInfo = worksheet => {
             timeCellMap.set(value.v, [cell]);
         }
     });
-    timeCellMap.forEach((value, key) => {
+    timeCellMap.forEach(value => {
         if (value.length > 1) {
             mergeObjs.push(
                 XLSX.utils.decode_range(
