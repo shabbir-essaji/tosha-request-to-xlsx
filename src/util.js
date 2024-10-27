@@ -1,5 +1,5 @@
 import { range } from 'lodash';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style';
 
 const getEndingDigit = inputString => {
     // Define a regular expression to extract the ending digits
@@ -102,8 +102,23 @@ const getMergedColumnsInfo = worksheet => {
     });
     return mergeObjs;
 };
+
+const applyStyles = worksheet => {
+    Object.entries(worksheet).forEach(([key, value]) => {
+        if (typeof value === 'object') {
+            value.s = {
+                alignment: {
+                    vertical: 'center',
+                    horizontal: 'center',
+                    wrapText: true
+                }
+            };
+        }
+    });
+};
 const util = {
     autofitColumns,
-    getMergedColumnsInfo
+    getMergedColumnsInfo,
+    applyStyles
 };
 export default util;

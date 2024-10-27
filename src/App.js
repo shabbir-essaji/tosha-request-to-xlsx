@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style';
 import moment from 'moment';
 import util from './util.js';
 import './App.css';
@@ -14,7 +14,7 @@ const App = () => {
             const jsonData = getJsonData();
             const worksheet = XLSX.utils.json_to_sheet(jsonData);
             util.autofitColumns(worksheet);
-
+            util.applyStyles(worksheet);
             const merge = util.getMergedColumnsInfo(worksheet);
             worksheet['!merges'] = merge;
 
