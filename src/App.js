@@ -5,7 +5,7 @@ import util from './util.js';
 import './App.css';
 
 const App = () => {
-    const FILTERED_COLUMNS = ['Day', 'Date', 'ITS ID', 'Email'];
+    const FILTERED_COLUMNS = ['Day', 'Date', 'Email'];
     const [textVal, setTextVal] = useState('');
     const [textAreaDisabled, setTextAreaDisabled] = useState(false);
     const dateRef = useRef('');
