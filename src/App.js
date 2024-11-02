@@ -110,6 +110,7 @@ const App = () => {
                     onClick={() => {
                         setTextVal('');
                         setTextAreaDisabled(false);
+                        dateRef.current = null;
                     }}
                 >
                     {'Reset'}
