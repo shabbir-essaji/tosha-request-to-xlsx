@@ -93,17 +93,28 @@ const App = () => {
                     disabled={textAreaDisabled}
                 />
             </div>
-            <button
-                name="Export to Excel"
-                className={textVal ? 'exportToXlsx' : ''}
-                onClick={() => {
-                    setTextAreaDisabled(true);
-                    getExcel();
-                }}
-                disabled={!textVal}
-            >
-                {'Export to Excel'}
-            </button>
+            <div className="btnGroup">
+                <button
+                    name="Export to Excel"
+                    className={textVal ? 'exportToXlsx' : ''}
+                    onClick={() => {
+                        setTextAreaDisabled(true);
+                        getExcel();
+                    }}
+                    disabled={!textVal}
+                >
+                    {'Export to Excel'}
+                </button>
+                <button
+                    name="Reset"
+                    onClick={() => {
+                        setTextVal('');
+                        setTextAreaDisabled(false);
+                    }}
+                >
+                    {'Reset'}
+                </button>
+            </div>
         </div>
     );
 };

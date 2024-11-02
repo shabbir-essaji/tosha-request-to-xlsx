@@ -9,9 +9,18 @@
   font-size: calc(10px + 2vmin);
   color: white;
 
-  .exportToXlsx {
-    border: 3px solid green;
-    border-radius: 3px;
-    background-color: green;
+  .btnGroup {
+    >button {
+      margin: 5px;
+    }
+
+    .exportToXlsx {
+      border: 3px solid green;
+      border-radius: 3px;
+      background-color: green;
+    }
+
   }
+
+
 }
