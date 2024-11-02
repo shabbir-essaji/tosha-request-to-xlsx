@@ -109,8 +109,7 @@ const applyStyles = worksheet => {
             value.s = {
                 alignment: {
                     vertical: 'center',
-                    horizontal: 'center',
-                    wrapText: true
+                    horizontal: 'center'
                 }
             };
         }
